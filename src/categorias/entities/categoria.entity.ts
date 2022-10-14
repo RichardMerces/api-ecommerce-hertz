@@ -1,8 +1,8 @@
 import { Entity, PrimaryGeneratedColumn, Column} from "typeorm";
 
 
-@Entity()
-export class categorias{
+@Entity({name: "tb_categorias"})
+export class Categorias{
 @PrimaryGeneratedColumn()
 id: number;
 
