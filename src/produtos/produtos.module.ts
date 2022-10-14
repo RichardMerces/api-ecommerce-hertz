@@ -12,4 +12,4 @@ import { ProdutosService } from './produtos.service';
     ProdutosService,
   ],
 })
-export class produtosModule {}
+export class ProdutosModule {}
