@@ -4,6 +4,7 @@ import { UpdateClienteDto } from './dto/update-cliente.dto';
 
 @Injectable()
 export class ClienteService {
+  /* 
   create(createClienteDto: CreateClienteDto) {
     return 'This action adds a new cliente';
   }
@@ -22,5 +23,5 @@ export class ClienteService {
 
   remove(id: number) {
     return `This action removes a #${id} cliente`;
-  }
+  } */
 }

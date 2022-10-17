@@ -1,5 +1,5 @@
-import { IsString } from "class-validator";
-import { IsNumber } from "class-validator";
+import { IsString, IsNumber } from "class-validator";
+
 
 export class CreateProdutoDto {
 
@@ -14,4 +14,5 @@ preco: number ;
 
 @IsString()
 foto_produto: string ;
+
 }

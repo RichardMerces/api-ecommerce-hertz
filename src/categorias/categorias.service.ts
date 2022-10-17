@@ -1,26 +1,70 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Inject } from '@nestjs/common';
+import { DeleteResult, ILike, Repository } from 'typeorm';
+import { HttpStatus } from '@nestjs/common/enums';
+import { HttpException } from '@nestjs/common/exceptions';
 import { CreateCategoriaDto } from './dto/create-categoria.dto';
 import { UpdateCategoriaDto } from './dto/update-categoria.dto';
+import { Categoria } from './entities/categoria.entity';
 
 @Injectable()
 export class CategoriasService {
-  create(createCategoriaDto: CreateCategoriaDto) {
-    return 'This action adds a new categoria';
+
+  constructor(
+    @Inject('CATEGORIAS_REPOSITORY')
+    private categoriasRepository: Repository<Categoria>
+  ) {}
+
+  async findAll(): Promise<Categoria[]> {
+    return await this.categoriasRepository.find();
   }
 
-  findAll() {
-    return `This action returns all categorias`;
+  async findById(idCategoria: number): Promise<Categoria> {
+
+    let categoria = await this.categoriasRepository.findOne({
+
+      where: {
+        idCategoria
+      }
+
+    });
+
+    if(!categoria) {
+
+      throw new HttpException('Categoria não encontrado!', HttpStatus.NOT_FOUND);
+
+    }
+
+    return categoria; 
+  }
+  
+  async findByName(nome: string): Promise<Categoria[]> {
+
+    return await this.categoriasRepository.find({
+
+      where:{
+
+        nome: ILike(`%${nome}%`)
+
+      }
+    });
+    
+  }
+  
+  async create(createCategoriaDto: CreateCategoriaDto): Promise<CreateCategoriaDto> {
+    return this.categoriasRepository.save(createCategoriaDto);
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} categoria`;
+  async update(id: number, updateCategoriaDto: UpdateCategoriaDto) {
+    return this.categoriasRepository.update(id, updateCategoriaDto);
   }
 
-  update(id: number, updateCategoriaDto: UpdateCategoriaDto) {
-    return `This action updates a #${id} categoria`;
-  }
+  async delete(id: number): Promise<DeleteResult> {
 
-  remove(id: number) {
-    return `This action removes a #${id} categoria`;
+    let buscaCategoria = await this.findById(id);
+
+    if (!buscaCategoria) {
+        throw new HttpException('Categoria não encontrada!', HttpStatus.NOT_FOUND)
+    }
+    return await this.categoriasRepository.delete(id);
   }
 }

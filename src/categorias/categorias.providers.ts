@@ -1,10 +1,10 @@
 import { DataSource } from 'typeorm';
-import { Categorias } from './entities/categoria.entity';
+import { Categoria } from './entities/categoria.entity';
 
 export const CategoriasProviders = [
   {
     provide: 'CATEGORIAS_REPOSITORY',
-    useFactory: (dataSource: DataSource) => dataSource.getRepository(Categorias),
+    useFactory: (dataSource: DataSource) => dataSource.getRepository(Categoria),
     inject: ['DATA_SOURCE'],
   },
 ];

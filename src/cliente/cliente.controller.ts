@@ -6,7 +6,7 @@ import { UpdateClienteDto } from './dto/update-cliente.dto';
 @Controller('cliente')
 export class ClienteController {
   constructor(private readonly clienteService: ClienteService) {}
-
+  /* 
   @Post()
   create(@Body() createClienteDto: CreateClienteDto) {
     return this.clienteService.create(createClienteDto);
@@ -30,5 +30,5 @@ export class ClienteController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.clienteService.remove(+id);
-  }
+  } */
 }

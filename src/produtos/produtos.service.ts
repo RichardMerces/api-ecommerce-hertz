@@ -1,6 +1,7 @@
-import { Injectable } from '@nestjs/common';
-import { Inject } from '@nestjs/common/decorators';
-import { Repository } from 'typeorm';
+import { Injectable, Inject } from '@nestjs/common';
+import { HttpStatus } from '@nestjs/common/enums';
+import { HttpException } from '@nestjs/common/exceptions';
+import { ILike, Repository } from 'typeorm';
 import { CreateProdutoDto } from './dto/create-produto.dto';
 import { UpdateProdutoDto } from './dto/update-produto.dto';
 import { Produto } from './entities/produto.entity';
@@ -12,19 +13,44 @@ export class ProdutosService {
     private produtosRepository: Repository<Produto>
   ) {}
 
-  async listar(): Promise<Produto[]> {
-    return this.produtosRepository.find();
+  async findAll(): Promise<Produto[]> {
+    return await this.produtosRepository.find();
   }
+
+  async findById(idProduto: number): Promise<Produto> {
+
+    let produto = await this.produtosRepository.findOne({
+
+      where: {
+        idProduto
+      }
+
+    });
+
+    if(!produto) {
+
+      throw new HttpException('Produto não encontrado!', HttpStatus.NOT_FOUND);
+
+    }
+
+    return produto; 
+  }
+  
+  async findByName(nome: string): Promise<Produto[]> {
+
+    return await this.produtosRepository.find({
+
+      where:{
+
+        nome: ILike(`%${nome}%`)
+
+      }
+    });
+    
+  }
+  /* Ainda faltam esses
   create(createProdutoDto: CreateProdutoDto) {
     return 'This action adds a new produto';
-  }
-
-  findAll() {
-    return `This action returns all produtos`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} produto`;
   }
 
   update(id: number, updateProdutoDto: UpdateProdutoDto) {
@@ -33,5 +59,5 @@ export class ProdutosService {
 
   remove(id: number) {
     return `This action removes a #${id} produto`;
-  }
+  } */
 }

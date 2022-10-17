@@ -12,4 +12,4 @@ import { CategoriasService } from './categorias.service';
     CategoriasService,
   ],
 })
-export class PhotoModule {}
+export class CategoriaModule {}

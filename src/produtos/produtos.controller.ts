@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, HttpStatus, HttpCode, ParseIntPipe} from '@nestjs/common';
 import { ProdutosService } from './produtos.service';
 import { CreateProdutoDto } from './dto/create-produto.dto';
 import { UpdateProdutoDto } from './dto/update-produto.dto';
@@ -8,25 +8,27 @@ import { Produto } from './entities/produto.entity';
 export class ProdutosController {
   constructor(private readonly produtosService: ProdutosService) {}
 
-  @Get('listar')
-  async listar(): Promise<Produto[]>{
-    return this.produtosService.listar()
-  }
-
-
-  @Post()
-  create(@Body() createProdutoDto: CreateProdutoDto) {
-    return this.produtosService.create(createProdutoDto);
-  }
-
   @Get()
-  findAll() {
-    return this.produtosService.findAll();
+  @HttpCode(HttpStatus.OK)
+  async findAll(): Promise<Produto[]>{
+    return this.produtosService.findAll()
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.produtosService.findOne(+id);
+  @HttpCode(HttpStatus.OK)
+  findById(@Param('id', ParseIntPipe) id: number): Promise<Produto> {
+    return this.produtosService.findById(id);
+  }
+
+  @Get('/nome/:nome')
+  @HttpCode(HttpStatus.OK)
+  async findByName(@Param('nome') nome: string): Promise<Produto[]> {
+    return this.produtosService.findByName(nome);
+  }
+  /* Ainda faltam esses
+  @Post()
+  create(@Body() createProdutoDto: CreateProdutoDto) {
+    return this.produtosService.create(createProdutoDto);
   }
 
   @Patch(':id')
@@ -37,5 +39,5 @@ export class ProdutosController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.produtosService.remove(+id);
-  }
+  } */
 }
