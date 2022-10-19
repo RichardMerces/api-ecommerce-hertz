@@ -16,7 +16,7 @@ export class CategoriasService {
 
   async findAll(): Promise<Categoria[]> {
     return await this.categoriasRepository.find();
-  }
+  } // findAll - serve para listar todas as categorias que estão na tabela categoria
 
   async findById(idCategoria: number): Promise<Categoria> {
 
