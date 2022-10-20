@@ -5,17 +5,23 @@ import { HttpException } from '@nestjs/common/exceptions';
 import { CreateCategoriaDto } from './dto/create-categoria.dto';
 import { UpdateCategoriaDto } from './dto/update-categoria.dto';
 import { Categoria } from './entities/categoria.entity';
+import { ProdutosService } from 'src/produtos/produtos.service';
 
 @Injectable()
 export class CategoriasService {
 
   constructor(
     @Inject('CATEGORIAS_REPOSITORY')
-    private categoriasRepository: Repository<Categoria>
+    private categoriasRepository: Repository<Categoria>,
+    private produtosService: ProdutosService
   ) {}
 
   async findAll(): Promise<Categoria[]> {
-    return await this.categoriasRepository.find();
+    return await this.categoriasRepository.find({
+      relations: {
+        produto: true
+    }
+  });
   } // findAll - serve para listar todas as categorias que estão na tabela categoria
 
   async findById(idCategoria: number): Promise<Categoria> {
@@ -24,6 +30,9 @@ export class CategoriasService {
 
       where: {
         idCategoria
+      },
+      relations: {
+        produto: true
       }
 
     });
@@ -45,6 +54,9 @@ export class CategoriasService {
 
         nome: ILike(`%${nome}%`)
 
+      },
+      relations: {
+        produto: true
       }
     });
     

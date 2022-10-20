@@ -20,7 +20,6 @@ preco: number ;
 @Column({length: 255})
 foto_produto: string ;
 
-
 @ManyToOne(()=> Categoria ,(categoria) =>categoria.produto, {
     onDelete:"CASCADE", nullable: false
 
