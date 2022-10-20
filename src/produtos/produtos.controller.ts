@@ -25,19 +25,22 @@ export class ProdutosController {
   async findByName(@Param('nome') nome: string): Promise<Produto[]> {
     return this.produtosService.findByName(nome);
   }
-  /* Ainda faltam esses
+
   @Post()
+  @HttpCode(HttpStatus.CREATED)
   create(@Body() createProdutoDto: CreateProdutoDto) {
     return this.produtosService.create(createProdutoDto);
   }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateProdutoDto: UpdateProdutoDto) {
-    return this.produtosService.update(+id, updateProdutoDto);
+  
+  @Patch('/atualizar/:id')
+  @HttpCode(HttpStatus.OK)
+  update(@Param('id') id: number, @Body() updateProdutoDto: UpdateProdutoDto) {
+    return this.produtosService.update(id, updateProdutoDto);
   }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.produtosService.remove(+id);
-  } */
+  
+  @Delete('/:id')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  delete(@Param('id', ParseIntPipe) id: number) {
+    return this.produtosService.delete(id);
+  }
 }

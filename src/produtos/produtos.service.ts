@@ -1,7 +1,7 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { HttpStatus } from '@nestjs/common/enums';
 import { HttpException } from '@nestjs/common/exceptions';
-import { ILike, Repository } from 'typeorm';
+import { ILike, Repository, DeleteResult } from 'typeorm';
 import { CreateProdutoDto } from './dto/create-produto.dto';
 import { UpdateProdutoDto } from './dto/update-produto.dto';
 import { Produto } from './entities/produto.entity';
@@ -45,19 +45,24 @@ export class ProdutosService {
         nome: ILike(`%${nome}%`)
 
       }
-    });
-    
-  }
-  /* Ainda faltam esses
-  create(createProdutoDto: CreateProdutoDto) {
-    return 'This action adds a new produto';
+    });  
   }
 
-  update(id: number, updateProdutoDto: UpdateProdutoDto) {
-    return `This action updates a #${id} produto`;
+  async create(createProdutoDto: CreateProdutoDto): Promise<CreateProdutoDto> {
+    return this.produtosRepository.save(createProdutoDto);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} produto`;
-  } */
+  async update(id: number, updateProdutoDto: UpdateProdutoDto) {
+    return this.produtosRepository.update(id, updateProdutoDto);
+  }
+
+  async delete(id: number): Promise<DeleteResult> {
+
+    let buscaProduto = await this.findById(id);
+
+    if (!buscaProduto) {
+        throw new HttpException('Categoria não encontrada!', HttpStatus.NOT_FOUND)
+    }
+    return await this.produtosRepository.delete(id);
+  }
 }
