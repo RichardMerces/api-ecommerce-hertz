@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
+import { Categoria } from "src/categorias/entities/categoria.entity";
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from "typeorm";
 
 @Entity({name: 'tb_produtos'})
 export class Produto {
@@ -19,4 +20,9 @@ preco: number ;
 foto_produto: string ;
 
 
+@ManyToOne(()=> Categoria ,(categoria) =>categoria.produto, {
+    onDelete:"CASCADE", nullable: false
+
+})
+categoria:Categoria
 }
