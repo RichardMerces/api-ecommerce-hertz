@@ -5,31 +5,30 @@ import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from "typeorm";
 @Entity({name: 'tb_produtos'})
 export class Produto {
 
-@PrimaryGeneratedColumn() 
-idProduto:number ;
+    @PrimaryGeneratedColumn() 
+    idProduto:number ;
 
-@Column({length: 100})
-nome: string ;
+    @Column({length: 100})
+    nome: string ;
 
-@Column({length: 255})
-descricao: string ;
+    @Column({length: 255})
+    descricao: string ;
 
-@Column({ type: "decimal" , precision: 10, scale: 2, default: 0})
-preco: number ;
+    @Column({ type: "decimal" , precision: 10, scale: 2, default: 0})
+    preco: number ;
 
-@Column({length: 255})
-foto_produto: string ;
+    @Column({length: 255})
+    foto_produto: string ;
 
-
-@ManyToOne(()=> Categoria ,(categoria) =>categoria.produto, {
-    onDelete:"CASCADE", nullable: false
-
-})
-categoria:Categoria
+    @ManyToOne(()=> Categoria ,(categoria) =>categoria.produto, {
+        onDelete: "CASCADE", nullable: false
+    })
+    categoria: Categoria;
 
 
-@ManyToOne(() => Cliente,(cliente) => cliente.produto , {
-    onDelete:"CASCADE",nullable:false
-})
-cliente:Cliente
+    @ManyToOne(() => Cliente,(cliente) => cliente.produto , {
+        onDelete:"CASCADE",nullable:false
+    })
+    cliente:Cliente;
+    
 }

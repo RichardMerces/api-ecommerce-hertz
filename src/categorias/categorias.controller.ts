@@ -27,20 +27,19 @@ export class CategoriasController {
   }
   @Post()
   @HttpCode(HttpStatus.CREATED)
-  create(@Body() createCategoriaDto: CreateCategoriaDto) {
-    return this.categoriasService.create(createCategoriaDto);
+  create(@Body() categoria: Categoria) {
+    return this.categoriasService.create(categoria);
   }
-  
+   
   @Patch('/atualizar/:id')
   @HttpCode(HttpStatus.OK)
   update(@Param('id') id: number, @Body() updateCategoriaDto: UpdateCategoriaDto) {
     return this.categoriasService.update(id, updateCategoriaDto);
   }
   
-  
   @Delete('/:id')
   @HttpCode(HttpStatus.NO_CONTENT)
   delete(@Param('id', ParseIntPipe) id: number) {
     return this.categoriasService.delete(id);
-  }
+  } 
 }

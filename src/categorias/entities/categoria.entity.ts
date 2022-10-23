@@ -4,6 +4,7 @@ import { Entity, PrimaryGeneratedColumn, Column, OneToMany} from "typeorm";
 
 @Entity({name: "tb_categorias"})
 export class Categoria{
+    
     @PrimaryGeneratedColumn()
     idCategoria: number;
 
@@ -17,7 +18,6 @@ export class Categoria{
     descricao: string;
 
     @OneToMany(() => Produto ,(produto) => produto.categoria)
-       
     produto:Produto[]
     
 }

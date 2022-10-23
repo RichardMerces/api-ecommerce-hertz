@@ -1,6 +1,9 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { HttpStatus } from '@nestjs/common/enums';
 import { HttpException } from '@nestjs/common/exceptions';
+import { InjectRepository } from '@nestjs/typeorm';
+import { CategoriasService } from 'src/categorias/categorias.service';
+import { Categoria } from 'src/categorias/entities/categoria.entity';
 import { ILike, Repository, DeleteResult } from 'typeorm';
 import { CreateProdutoDto } from './dto/create-produto.dto';
 import { UpdateProdutoDto } from './dto/update-produto.dto';
@@ -9,12 +12,20 @@ import { Produto } from './entities/produto.entity';
 @Injectable()
 export class ProdutosService {
   constructor(
-    @Inject('PRODUTOS_REPOSITORY')
-    private produtosRepository: Repository<Produto>
+    @InjectRepository(Produto)
+    private produtosRepository: Repository<Produto>,
+    private categoriasService: CategoriasService,
   ) {}
 
   async findAll(): Promise<Produto[]> {
-    return await this.produtosRepository.find();
+    return await this.produtosRepository.find({
+
+      relations: {
+
+        categoria: true
+        
+    }
+   });
   }
 
   async findById(idProduto: number): Promise<Produto> {
@@ -22,9 +33,17 @@ export class ProdutosService {
     let produto = await this.produtosRepository.findOne({
 
       where: {
-        idProduto
-      }
 
+        idProduto
+        
+      }, 
+      relations: {
+
+        categoria: true,
+        cliente: true
+
+      } 
+      
     });
 
     if(!produto) {
@@ -34,6 +53,7 @@ export class ProdutosService {
     }
 
     return produto; 
+
   }
   
   async findByName(nome: string): Promise<Produto[]> {
@@ -44,15 +64,61 @@ export class ProdutosService {
 
         nome: ILike(`%${nome}%`)
 
+      }, 
+      relations: {
+
+        categoria: true,
+        cliente: true
+
       }
+ 
     });  
+
   }
 
   async create(createProdutoDto: CreateProdutoDto): Promise<CreateProdutoDto> {
+    
+    if (createProdutoDto.categoria){
+
+      let categoria = await this.categoriasService.findById(createProdutoDto.categoria.idCategoria)
+
+      if (!categoria){
+
+          throw new HttpException('Categoria não encontrada!', HttpStatus.NOT_FOUND);
+
+      }
+     
+       return await this.produtosRepository.save(createProdutoDto);
+
+    }
+
     return this.produtosRepository.save(createProdutoDto);
   }
 
   async update(id: number, updateProdutoDto: UpdateProdutoDto) {
+
+    
+    if(!id) {
+      
+      throw new HttpException('Produto não encontrado!', HttpStatus.NOT_FOUND);
+      
+    }
+    
+    if (updateProdutoDto.categoria) {
+      
+      let buscaCategoria = await this.categoriasService.findById(Number(updateProdutoDto.categoria))
+
+
+      if (!buscaCategoria){
+
+          throw new HttpException('Categoria não encontrada!', HttpStatus.NOT_FOUND)
+
+      }
+
+      return await this.produtosRepository.update(id, updateProdutoDto);
+
+    }
+ 
     return this.produtosRepository.update(id, updateProdutoDto);
   }
 
@@ -61,8 +127,11 @@ export class ProdutosService {
     let buscaProduto = await this.findById(id);
 
     if (!buscaProduto) {
+
         throw new HttpException('Categoria não encontrada!', HttpStatus.NOT_FOUND)
+
     }
+
     return await this.produtosRepository.delete(id);
   }
 }
