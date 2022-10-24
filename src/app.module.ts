@@ -16,7 +16,7 @@ import { ProdutoModule } from './produtos/produtos.module';
       host: 'localhost',
       port: 3306,
       username: 'root',
-      password: '34Uffd%%sj2344',
+      password: 'root',
       database: 'db_ecommerce',
       entities: [Produto, Categoria, Cliente],
         synchronize: true,
