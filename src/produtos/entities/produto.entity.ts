@@ -1,5 +1,4 @@
 import { Categoria } from "src/categorias/entities/categoria.entity";
-import { Cliente } from "src/cliente/entities/cliente.entity";
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from "typeorm";
 
 @Entity({name: 'tb_produtos'})
@@ -24,11 +23,4 @@ export class Produto {
         onDelete: "CASCADE", nullable: false
     })
     categoria: Categoria;
-
-
-    @ManyToOne(() => Cliente,(cliente) => cliente.produto , {
-        onDelete:"CASCADE",nullable:false
-    })
-    cliente:Cliente;
-    
 }

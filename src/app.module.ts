@@ -4,10 +4,10 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { CategoriaModule } from './categorias/categorias.module';
 import { Categoria } from './categorias/entities/categoria.entity';
-import { ClienteModule } from './cliente/cliente.module';
-import { Cliente } from './cliente/entities/cliente.entity';
 import { Produto } from './produtos/entities/produto.entity';
 import { ProdutoModule } from './produtos/produtos.module';
+import { Usuario } from './usuario/entities/usuario.entity';
+import { UsuarioModule } from './usuario/usuario.module';
 
 @Module({
   imports: [
@@ -18,12 +18,12 @@ import { ProdutoModule } from './produtos/produtos.module';
       username: 'root',
       password: 'root',
       database: 'db_ecommerce',
-      entities: [Produto, Categoria, Cliente],
+      entities: [Produto, Categoria, Usuario],
         synchronize: true,
       }),
       ProdutoModule, 
       CategoriaModule,
-      ClienteModule
+      UsuarioModule
     ],
   controllers: [AppController],
   providers: [AppService],

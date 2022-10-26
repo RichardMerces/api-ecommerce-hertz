@@ -1,9 +1,7 @@
-import { Injectable, Inject, HttpCode } from '@nestjs/common';
+import { Injectable, HttpCode } from '@nestjs/common';
 import { DeleteResult, ILike, Repository } from 'typeorm';
 import { HttpStatus } from '@nestjs/common/enums';
 import { HttpException } from '@nestjs/common/exceptions';
-import { CreateCategoriaDto } from './dto/create-categoria.dto';
-import { UpdateCategoriaDto } from './dto/update-categoria.dto';
 import { Categoria } from './entities/categoria.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 
@@ -73,17 +71,16 @@ export class CategoriasService {
     return this.categoriasRepository.save(categoria);
   }
  
-  async update(id: number, updateCategoriaDto: UpdateCategoriaDto) {
+  async update(categoria: Categoria): Promise<Categoria> {
 
-    let buscaCategoria = await this.findById(id);
+    let buscaCategoria = await this.findById(categoria.idCategoria);
 
-        if (!buscaCategoria || !id){
+        if (!buscaCategoria || !categoria.idCategoria){
 
           throw new HttpException('Categoria não encontrada!', HttpStatus.NOT_FOUND);
 
         }
-
-    return this.categoriasRepository.update(id, updateCategoriaDto);
+    return this.categoriasRepository.save(categoria);
   }
 
   async delete(id: number): Promise<DeleteResult> {

@@ -1,7 +1,5 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, HttpStatus, HttpCode, ParseIntPipe } from '@nestjs/common';
 import { CategoriasService } from './categorias.service';
-import { CreateCategoriaDto } from './dto/create-categoria.dto';
-import { UpdateCategoriaDto } from './dto/update-categoria.dto';
 import { Categoria } from './entities/categoria.entity';
 
 @Controller('categorias')
@@ -10,7 +8,7 @@ export class CategoriasController {
   
   @Get()
   @HttpCode(HttpStatus.OK)
-  async findAll(): Promise<Categoria[]>{
+  findAll(): Promise<Categoria[]>{
     return this.categoriasService.findAll()
   }
 
@@ -22,19 +20,19 @@ export class CategoriasController {
 
   @Get('/nome/:nome')
   @HttpCode(HttpStatus.OK)
-  async findByName(@Param('nome') nome: string): Promise<Categoria[]> {
+  findByName(@Param('nome') nome: string): Promise<Categoria[]> {
     return this.categoriasService.findByName(nome);
   }
   @Post()
   @HttpCode(HttpStatus.CREATED)
-  create(@Body() categoria: Categoria) {
+  create(@Body() categoria: Categoria): Promise<Categoria> {
     return this.categoriasService.create(categoria);
   }
    
-  @Patch('/atualizar/:id')
+  @Patch('/atualizar')
   @HttpCode(HttpStatus.OK)
-  update(@Param('id') id: number, @Body() updateCategoriaDto: UpdateCategoriaDto) {
-    return this.categoriasService.update(id, updateCategoriaDto);
+  update(@Body() categoria: Categoria): Promise<Categoria> {
+    return this.categoriasService.update(categoria);
   }
   
   @Delete('/:id')
