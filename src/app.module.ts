@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { AuthModule } from './auth/auth.module';
 import { CategoriaModule } from './categorias/categorias.module';
 import { Categoria } from './categorias/entities/categoria.entity';
 import { Produto } from './produtos/entities/produto.entity';
@@ -23,6 +24,7 @@ import { UsuarioModule } from './usuario/usuario.module';
       }),
       ProdutoModule, 
       CategoriaModule,
+      AuthModule,
       UsuarioModule
     ],
   controllers: [AppController],

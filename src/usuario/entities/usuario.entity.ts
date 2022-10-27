@@ -1,5 +1,6 @@
 import { IsEmail, IsNotEmpty, MinLength } from "class-validator";
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Produto } from "src/produtos/entities/produto.entity";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity({name: "tb_usuarios"})
 export class Usuario {
@@ -23,4 +24,6 @@ export class Usuario {
     @Column({length: 5000})
     public foto: string
 
+    @OneToMany(() => Produto, (produto) => produto.usuario)
+    produto: Produto[]
 }

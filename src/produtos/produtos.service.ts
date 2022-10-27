@@ -18,9 +18,8 @@ export class ProdutosService {
     return await this.produtosRepository.find({
 
       relations: {
-
-        categoria: true
-        
+        categoria: true,
+        usuario: true
     }
    });
   }
@@ -30,14 +29,11 @@ export class ProdutosService {
     let produto = await this.produtosRepository.findOne({
 
       where: {
-
         idProduto
-        
       }, 
       relations: {
-
-        categoria: true
-
+        categoria: true,
+        usuario: true
       } 
       
     });
@@ -62,9 +58,8 @@ export class ProdutosService {
 
       }, 
       relations: {
-
-        categoria: true
-
+        categoria: true,
+        usuario:true
       }
  
     });  
@@ -78,15 +73,10 @@ export class ProdutosService {
       let categoria = await this.categoriasService.findById(produto.categoria.idCategoria)
 
       if (!categoria){
-
           throw new HttpException('Categoria não encontrada!', HttpStatus.NOT_FOUND);
-
-      }
-     
+      }  
        return await this.produtosRepository.save(produto);
-
     }
-
     return this.produtosRepository.save(produto);
   }
 

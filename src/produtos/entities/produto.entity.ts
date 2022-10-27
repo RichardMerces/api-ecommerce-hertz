@@ -1,4 +1,5 @@
 import { Categoria } from "src/categorias/entities/categoria.entity";
+import { Usuario } from "src/usuario/entities/usuario.entity";
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from "typeorm";
 
 @Entity({name: 'tb_produtos'})
@@ -23,4 +24,10 @@ export class Produto {
         onDelete: "CASCADE", nullable: false
     })
     categoria: Categoria;
+
+    @ManyToOne(()=> Usuario ,(usuario) => usuario.produto, {
+        onDelete: "CASCADE", nullable: false
+    })
+    usuario: Usuario;
+
 }
