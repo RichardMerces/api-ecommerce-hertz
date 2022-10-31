@@ -1,10 +1,11 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, HttpStatus, HttpCode, ParseIntPipe, UseGuards} from '@nestjs/common';
-import { ProdutosService } from './produtos.service';
-import { Produto } from './entities/produto.entity';
+import { Controller, Get, Post, Body, Patch, Param, Delete, HttpStatus, HttpCode, ParseIntPipe} from '@nestjs/common';
+import { ProdutosService } from '../services/produtos.service';
+import { Produto } from '../entities/produto.entity';
+import { Put, UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/guard/jwt-auth.guard';
 
 @UseGuards(JwtAuthGuard)
-@Controller('produtos')
+@Controller('/produtos')
 export class ProdutosController {
   constructor(private readonly produtosService: ProdutosService) {}
 
@@ -32,7 +33,7 @@ export class ProdutosController {
     return this.produtosService.create(produto);
   }
   
-  @Patch('/atualizar')
+  @Put('/atualizar')
   @HttpCode(HttpStatus.OK)
   update(@Body() produto: Produto): Promise<Produto> {
     return this.produtosService.update(produto);

@@ -2,7 +2,7 @@ import { Injectable, HttpCode } from '@nestjs/common';
 import { DeleteResult, ILike, Repository } from 'typeorm';
 import { HttpStatus } from '@nestjs/common/enums';
 import { HttpException } from '@nestjs/common/exceptions';
-import { Categoria } from './entities/categoria.entity';
+import { Categoria } from '../entities/categoria.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()

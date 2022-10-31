@@ -1,3 +1,4 @@
+import { IsNotEmpty } from "class-validator";
 import { Categoria } from "src/categorias/entities/categoria.entity";
 import { Usuario } from "src/usuario/entities/usuario.entity";
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from "typeorm";
@@ -20,14 +21,15 @@ export class Produto {
     @Column({length: 255})
     foto_produto: string ;
 
+    @IsNotEmpty()
     @ManyToOne(()=> Categoria ,(categoria) =>categoria.produto, {
-        onDelete: "CASCADE", nullable: false
+        onDelete: "CASCADE"
     })
     categoria: Categoria;
 
-    @ManyToOne(()=> Usuario ,(usuario) => usuario.produto, {
-        onDelete: "CASCADE", nullable: false
+    @IsNotEmpty()
+    @ManyToOne(()=> Usuario ,(usuario) =>usuario.produto, {
+        onDelete: "CASCADE"
     })
     usuario: Usuario;
-
 }

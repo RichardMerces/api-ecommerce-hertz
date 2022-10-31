@@ -1,13 +1,13 @@
-import { Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { CategoriasController } from './categorias.controller';
-import { CategoriasService } from './categorias.service';
-import { Categoria } from './entities/categoria.entity';
+import { HttpException, HttpStatus, Injectable, Module } from "@nestjs/common";
+import { InjectRepository, TypeOrmModule } from "@nestjs/typeorm";
+import { CategoriaController } from "./controllers/categorias.controller";
+import { Categoria } from "./entities/categoria.entity";
+import { CategoriasService } from "./services/categorias.service";
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Categoria])], 
-  providers: [CategoriasService],
-  controllers: [CategoriasController],
-  exports: [TypeOrmModule]
+imports : [TypeOrmModule.forFeature([Categoria])],
+providers: [CategoriasService],
+controllers: [CategoriaController], //
+exports: [TypeOrmModule]
 })
-export class CategoriaModule {}
+export class CategoriasModule {}
