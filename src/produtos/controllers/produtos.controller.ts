@@ -3,9 +3,13 @@ import { ProdutosService } from '../services/produtos.service';
 import { Produto } from '../entities/produto.entity';
 import { Put, UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '../../auth/guard/jwt-auth.guard';
+import { ApiTags } from '@nestjs/swagger/dist';
+import { ApiBearerAuth } from '@nestjs/swagger/dist/decorators/api-bearer.decorator';
 
+@ApiTags('Produto')
 @UseGuards(JwtAuthGuard)
 @Controller('/produtos')
+@ApiBearerAuth()
 export class ProdutosController {
   constructor(private readonly produtosService: ProdutosService) {}
 
