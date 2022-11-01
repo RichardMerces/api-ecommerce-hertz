@@ -2,7 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, HttpStatus, HttpCode
 import { ProdutosService } from '../services/produtos.service';
 import { Produto } from '../entities/produto.entity';
 import { Put, UseGuards } from '@nestjs/common';
-import { JwtAuthGuard } from 'src/auth/guard/jwt-auth.guard';
+import { JwtAuthGuard } from '../../auth/guard/jwt-auth.guard';
 
 @UseGuards(JwtAuthGuard)
 @Controller('/produtos')

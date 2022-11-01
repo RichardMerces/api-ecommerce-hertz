@@ -3,7 +3,7 @@ import { Produto } from "../../produtos/entities/produto.entity";
 import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 
-@Entity({name: 'tb_usuario'})
+@Entity({name: 'tb_usuarios'})
 export class Usuario{
 
     @PrimaryGeneratedColumn()
