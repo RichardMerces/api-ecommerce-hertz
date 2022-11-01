@@ -1,3 +1,4 @@
+import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder } from '@nestjs/swagger';
 import { SwaggerModule } from '@nestjs/swagger/dist';
@@ -19,9 +20,10 @@ async function bootstrap() {
 const document = SwaggerModule.createDocument(app,config);
 SwaggerModule.setup('/swagger',app,document);
 
-process.env.TZ = '-03:00'
+  process.env.TZ = '-03:00'
 
-
-  await app.listen(3000);
+  app.useGlobalPipes(new ValidationPipe());
+  app.enableCors()
+  await app.listen(process.env.PORT || 3000);
 }
 bootstrap();
